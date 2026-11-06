@@ -3,41 +3,47 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-public class Node
+public class Node<T>
 {
-    private int number;
+    private T data;
 
-    private List<Node> children = new List<Node>();
+    private List<Node<T>> children =
+        new List<Node<T>>();
 
-    public int Number {
+    public T Data
+    {
         get
         {
-            return this.number;
+            return this.data;
         }
     }
 
-    public ReadOnlyCollection<Node> Children {
+    public ReadOnlyCollection<Node<T>> Children
+    {
         get
         {
             return this.children.AsReadOnly();
         }
     }
 
-    public Node(int number)
+    public Node(T data)
     {
-        this.number = number;
+        this.data = data;
     }
 
-    public void AddChildren(Node n)
+    public void AddChild(Node<T> node)
     {
-        this.children.Add(n);
+        this.children.Add(node);
     }
-    public void Accept(IVisitor visitor)
+
+    public void Accept(IVisitor<T> visitor)
     {
         visitor.Visit(this);
-        foreach (var item in this.children)
+
+        foreach (Node<T> child
+                in this.children)
         {
-            item.Accept(visitor);
+            child.Accept(visitor);
         }
     }
 }

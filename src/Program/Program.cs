@@ -7,27 +7,67 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            Node n1 = new Node(1);
-            Node n2 = new Node(2);
-            Node n3 = new Node(3);
-            Node n4 = new Node(4);
-            Node n5 = new Node(5);
-            Node n6 = new Node(6);
-            Node n7 = new Node(7);
+            Node<Person> ana =
+                new Node<Person>(
+                    new Person("Ana", 78));
 
-            n1.AddChildren(n2);
-            n1.AddChildren(n3);
+            Node<Person> carlos =
+                new Node<Person>(
+                    new Person("Carlos", 52));
 
-            n2.AddChildren(n4);
-            n2.AddChildren(n5);
+            Node<Person> laura =
+                new Node<Person>(
+                    new Person("Laura", 49));
 
-            n3.AddChildren(n6);
-            n3.AddChildren(n7);
+            Node<Person> mateo =
+                new Node<Person>(
+                    new Person("Mateo", 24));
 
-            // visitar el árbol aquí
-            SumVisitor visitor = new SumVisitor();
-            n1.Accept(visitor);
-            Console.WriteLine(visitor.Sum);
+            Node<Person> sofia =
+                new Node<Person>(
+                    new Person("Sofía", 20));
+
+            Node<Person> diego =
+                new Node<Person>(
+                    new Person("Diego", 18));
+
+            Node<Person> valentina =
+                new Node<Person>(
+                    new Person("Valentina", 15));
+
+            ana.AddChild(carlos);
+            ana.AddChild(laura);
+            carlos.AddChild(mateo);
+            carlos.AddChild(sofia);
+            laura.AddChild(diego);
+            laura.AddChild(valentina);
+
+            AgeSumVisitor ageVisitor =
+                new AgeSumVisitor();
+
+            ana.Accept(ageVisitor);
+
+            OldestChildVisitor oldestVisitor =
+                new OldestChildVisitor();
+
+            ana.Accept(oldestVisitor);
+
+            LongestNameVisitor nameVisitor =
+                new LongestNameVisitor();
+
+            ana.Accept(nameVisitor);
+
+            Console.WriteLine(
+                $"Suma de edades: {ageVisitor.TotalAge}");
+
+            Console.WriteLine(
+                $"Hijo mayor: " +
+                $"{oldestVisitor.OldestChild.Name} - " +
+                $"{oldestVisitor.OldestChild.Age}");
+
+            Console.WriteLine(
+                $"Nombre más largo: " +
+                $"{nameVisitor.Person.Name}");
         }
     }
 }
